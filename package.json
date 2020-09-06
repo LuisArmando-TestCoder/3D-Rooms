@@ -8,7 +8,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "canvas-preset": "^3.3.0",
     "core-js": "^3.6.5",
+    "three": "^0.120.1",
     "vue": "^2.6.11"
   },
   "devDependencies": {
