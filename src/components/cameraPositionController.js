@@ -2,6 +2,11 @@ import {
   mouseController,
 } from './cameraDirectionController';
 
+function deegresToRadians(degrees) {
+  const normalizedDegrees = degrees / 360;
+  return normalizedDegrees * Math.PI;
+}
+
 const keyController = {
   event: null,
 };
@@ -21,6 +26,8 @@ const cameraVector = {
     x: 0.01,
     z: 0.01,
   },
+  rotation: 0,
+  chosenAxis: 'z',
   top: {
     acceleration: {
       x: 0.1,
@@ -31,15 +38,23 @@ const cameraVector = {
 
 const move = {
   forward() {
+    cameraVector.rotation = 0;
+    cameraVector.chosenAxis = 'z';
     cameraVector.acceleration.z += cameraVector.friqtion.z * friqtionResistance;
   },
   backward() {
+    cameraVector.rotation = deegresToRadians(0);
+    cameraVector.chosenAxis = 'z';
     cameraVector.acceleration.z -= cameraVector.friqtion.z * friqtionResistance;
   },
   right() {
+    cameraVector.rotation = deegresToRadians(180);
+    cameraVector.chosenAxis = 'x';
     cameraVector.acceleration.x -= cameraVector.friqtion.x * friqtionResistance;
   },
   left() {
+    cameraVector.rotation = deegresToRadians(180);
+    cameraVector.chosenAxis = 'x';
     cameraVector.acceleration.x += cameraVector.friqtion.x * friqtionResistance;
   },
 };
@@ -49,6 +64,10 @@ const movementKeys = {
   a: move.left,
   s: move.backward,
   d: move.right,
+  W: move.forward,
+  A: move.left,
+  S: move.backward,
+  D: move.right,
   ArrowUp: move.forward,
   ArrowLeft: move.left,
   ArrowDown: move.backward,
@@ -90,12 +109,19 @@ export function updateFirstPersonPosition() {
   setMoveOnKeyDown();
   reduceFirstPersonPositionAcceleration();
   topFirstPersonPositionAcceleration();
-  const { camera, cameraDirection } = mouseController;
-  const obj = cameraVector;
-  obj.position.x += obj.acceleration.x;
-  obj.position.z += obj.acceleration.z;
-  camera.position.x += Math.sin(cameraDirection.x) * obj.position.z;
-  camera.position.z += Math.cos(cameraDirection.x) * obj.position.z;
+  const {
+    camera,
+    cameraDirection,
+    // lookAt,
+  } = mouseController;
+  const {
+    acceleration,
+    chosenAxis,
+    rotation,
+  } = cameraVector;
+
+  camera.position.x += acceleration[chosenAxis] * Math.sin(cameraDirection.x + rotation);
+  camera.position.z += acceleration[chosenAxis] * Math.cos(cameraDirection.x + rotation);
 }
 
 export function setFirstPersonPositionControllers() {

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+// import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls';
 import preset from 'canvas-preset';
 import {
   setFirstPersonPositionControllers,
@@ -30,6 +31,12 @@ function createRooms() {
   const renderer = getRenderer(c);
   const camera = getCamera();
   const scene = getScene();
+  // const firstPersonControls = new FirstPersonControls(camera);
+  // const clock = new THREE.Clock();
+
+  // firstPersonControls.lookSpeed = 0.35;
+  // firstPersonControls.movementSpeed = 50;
+  // firstPersonControls.constrainVertical = true;
 
   scene.add(new THREE.GridHelper(100, 100, '#ffe'));
 
@@ -41,6 +48,7 @@ function createRooms() {
   setFirstPersonPositionControllers();
   setFirstPersonDirectionControllers(camera);
   draw(() => {
+    // firstPersonControls.update(clock.getDelta());
     updateFirstPersonPosition();
     renderer.render(scene, camera);
   });
