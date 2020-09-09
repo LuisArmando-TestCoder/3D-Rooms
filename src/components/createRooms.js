@@ -11,9 +11,11 @@ import {
   getRenderer,
   getCamera,
   getScene,
+  color,
 } from './getUtils';
 import floor from './mesh/floor';
 import light from './lights/sceneLight';
+import walls from './mesh/walls';
 
 function createRooms() {
   const { draw, c, size } = preset(null, 'canvas', null);
@@ -26,11 +28,12 @@ function createRooms() {
 
   scene.add(floor);
   scene.add(light);
+  scene.add(walls);
   scene.add(new THREE.PointLightHelper(light, 1));
 
-  renderer.setClearColor('#001', 1);
+  renderer.setClearColor(color, 1);
 
-  camera.position.set(0, 10, -10);
+  camera.position.set(-25, 10, 0);
   camera.lookAt(new THREE.Vector3());
 
   setFirstPersonPositionControllers();

@@ -49,7 +49,7 @@ function setCameraSight(event) {
 function fakeCameraSetting() {
   mouseController.isPressed = true;
   setCameraSight({
-    movementX: 0,
+    movementX: -392.5,
     movementY: 0,
   });
   mouseController.isPressed = false;
