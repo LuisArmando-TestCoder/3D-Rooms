@@ -12,6 +12,8 @@ import {
   getCamera,
   getScene,
 } from './getUtils';
+import floor from './mesh/floor';
+import light from './lights/sceneLight';
 
 function createRooms() {
   const { draw, c, size } = preset(null, 'canvas', null);
@@ -22,7 +24,9 @@ function createRooms() {
   const camera = getCamera();
   const scene = getScene();
 
-  scene.add(new THREE.GridHelper(100, 100, '#ffe'));
+  scene.add(floor);
+  scene.add(light);
+  scene.add(new THREE.PointLightHelper(light, 1));
 
   renderer.setClearColor('#001', 1);
 

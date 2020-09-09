@@ -46,6 +46,15 @@ function setCameraSight(event) {
   }
 }
 
+function fakeCameraSetting() {
+  mouseController.isPressed = true;
+  setCameraSight({
+    movementX: 0,
+    movementY: 0,
+  });
+  mouseController.isPressed = false;
+}
+
 export function setFirstPersonDirectionControllers(camera, canvas) {
   mouseController.camera = camera;
   canvas.addEventListener('mousedown', () => {
@@ -61,4 +70,5 @@ export function setFirstPersonDirectionControllers(camera, canvas) {
     document.exitPointerLock();
     mouseController.isPressed = false;
   });
+  fakeCameraSetting();
 }
