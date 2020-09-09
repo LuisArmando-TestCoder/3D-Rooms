@@ -112,7 +112,6 @@ export function updateFirstPersonPosition() {
   const {
     camera,
     cameraDirection,
-    // lookAt,
   } = mouseController;
   const {
     acceleration,
