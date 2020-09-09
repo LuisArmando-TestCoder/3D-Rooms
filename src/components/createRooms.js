@@ -46,7 +46,7 @@ function createRooms() {
   camera.lookAt(new THREE.Vector3());
 
   setFirstPersonPositionControllers();
-  setFirstPersonDirectionControllers(camera);
+  setFirstPersonDirectionControllers(camera, c);
   draw(() => {
     // firstPersonControls.update(clock.getDelta());
     updateFirstPersonPosition();

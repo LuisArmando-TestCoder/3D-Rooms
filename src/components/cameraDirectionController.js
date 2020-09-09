@@ -1,14 +1,11 @@
 export const mouseController = {
+  absoluteYSinLimit: 0.9,
   isPressed: false,
-  pressedVector: {
-    x: null,
-    y: null,
-  },
   cameraDirection: {
     x: 0,
     y: 0,
   },
-  speedResistance: 25000,
+  speedResistance: 250,
   lookAt: {
     x: null,
     y: null,
@@ -18,10 +15,20 @@ export const mouseController = {
 };
 
 function setCameraDirection(event) {
-  const xLeg = mouseController.pressedVector.x - event.clientX;
-  const yLeg = mouseController.pressedVector.y - event.clientY;
-  mouseController.cameraDirection.x += xLeg / mouseController.speedResistance;
-  mouseController.cameraDirection.y += yLeg / mouseController.speedResistance;
+  const {
+    speedResistance,
+    cameraDirection,
+    absoluteYSinLimit,
+  } = mouseController;
+  const move = {
+    x: -event.movementX / speedResistance,
+    y: -event.movementY / speedResistance,
+  };
+  cameraDirection.x += move.x;
+  const futureYSinValueDirection = Math.abs(Math.sin(cameraDirection.y + move.y));
+  if (futureYSinValueDirection < absoluteYSinLimit) {
+    cameraDirection.y += move.y;
+  }
 }
 
 function setCameraSight(event) {
@@ -39,20 +46,19 @@ function setCameraSight(event) {
   }
 }
 
-export function setFirstPersonDirectionControllers(camera) {
-  // debugger; // eslint-disable-line
+export function setFirstPersonDirectionControllers(camera, canvas) {
   mouseController.camera = camera;
-  window.addEventListener('mousedown', (event) => {
-    if (!mouseController.isPressed) {
-      mouseController.pressedVector = {
-        x: event.clientX,
-        y: event.clientY,
-      };
-    }
+  canvas.addEventListener('mousedown', () => {
+    canvas.requestPointerLock = canvas.requestPointerLock // eslint-disable-line
+                            || canvas.mozRequestPointerLock;
+    canvas.requestPointerLock();
     mouseController.isPressed = true;
   });
-  window.addEventListener('mousemove', setCameraSight);
-  window.addEventListener('mouseup', () => {
+  canvas.addEventListener('mousemove', setCameraSight);
+  canvas.addEventListener('mouseup', () => {
+    document.exitPointerLock = document.exitPointerLock
+                            || document.mozExitPointerLock;
+    document.exitPointerLock();
     mouseController.isPressed = false;
   });
 }
