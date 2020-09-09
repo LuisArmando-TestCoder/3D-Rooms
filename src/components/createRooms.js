@@ -7,24 +7,11 @@ import {
 import {
   setFirstPersonDirectionControllers,
 } from './cameraDirectionController';
-
-function getRenderer(canvas) {
-  return new THREE.WebGLRenderer({ canvas });
-}
-
-function getAspectRatio() {
-  return window.innerWidth / window.innerHeight;
-}
-
-function getCamera() {
-  const camera = new THREE.PerspectiveCamera(32, getAspectRatio(), 1, 100);
-  camera.lookAt(new THREE.Vector3());
-  return camera;
-}
-
-function getScene() {
-  return new THREE.Scene();
-}
+import {
+  getRenderer,
+  getCamera,
+  getScene,
+} from './getUtils';
 
 function createRooms() {
   const { draw, c, size } = preset(null, 'canvas', null);
