@@ -5,7 +5,7 @@ export const near = 10;
 export const far = 100;
 
 export function getRenderer(canvas) {
-  return new THREE.WebGLRenderer({ canvas });
+  return new THREE.WebGLRenderer({ canvas, antialias: true });
 }
 
 export function getAspectRatio() {
@@ -13,7 +13,7 @@ export function getAspectRatio() {
 }
 
 export function getCamera() {
-  const camera = new THREE.PerspectiveCamera(32, getAspectRatio(), 1, 100);
+  const camera = new THREE.PerspectiveCamera(32, getAspectRatio(), 1, 500);
   camera.lookAt(new THREE.Vector3());
   return camera;
 }
