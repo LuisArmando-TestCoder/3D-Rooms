@@ -8,7 +8,7 @@ function deegresToRadians(degrees) {
 }
 
 const keyController = {
-  event: null,
+  keys: [],
 };
 
 const friqtionResistance = 2;
@@ -101,8 +101,9 @@ function topFirstPersonPositionAcceleration() {
 }
 
 function setMoveOnKeyDown() {
-  const validKey = movementKeys[keyController.event && keyController.event.key];
-  if (validKey) validKey();
+  keyController.keys.forEach((key) => {
+    movementKeys[key]();
+  });
 }
 
 export function updateFirstPersonPosition() {
@@ -125,9 +126,14 @@ export function updateFirstPersonPosition() {
 
 export function setFirstPersonPositionControllers() {
   window.addEventListener('keydown', (event) => {
-    keyController.event = event;
+    const isValidKey = Object.keys(movementKeys).includes(event.key);
+    const isKeyInQueue = keyController.keys.includes(event.key);
+    if (isValidKey && !isKeyInQueue) {
+      keyController.keys.push(event.key);
+    }
   });
-  window.addEventListener('keyup', () => {
-    keyController.event = null;
+  window.addEventListener('keyup', (event) => {
+    const disappearingKeyIndex = keyController.keys.indexOf(event.key);
+    keyController.keys.splice(disappearingKeyIndex, 1);
   });
 }

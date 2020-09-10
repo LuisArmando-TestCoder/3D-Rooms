@@ -8,7 +8,6 @@ const getSrc = (name) => `${path}${name}.png`;
 const albedoSrc = getSrc('albedo');
 const normalSrc = getSrc('normal-ogl');
 const aoSrc = getSrc('ao');
-const metalSrc = getSrc('metallic');
 const roughnessSrc = getSrc('roughness');
 
 const map = loader.load(albedoSrc);
@@ -19,8 +18,6 @@ const normalMap = getMap(normalSrc, map);
 
 const aoMap = getMap(aoSrc, map);
 
-const metalMap = getMap(metalSrc, map);
-
 const roughnessMap = getMap(roughnessSrc, map);
 
 const y = 25;
@@ -28,7 +25,6 @@ const geometry = new THREE.BoxGeometry(60, y, 20);
 
 const material = new THREE.MeshStandardMaterial({
   roughnessMap,
-  metalMap,
   aoMap,
   normalMap,
   map,
