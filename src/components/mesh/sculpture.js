@@ -5,6 +5,7 @@ import {
 
 export default function addSculpture(scene) {
   const loader = new GLTFLoader();
+  loader.setCrossOrigin( 'anonymous' );
   loader.load('/static/models/signe_tegner/scene.gltf', (gltf) => {
     const sculpture = gltf.scene.children[0];
     sculpture.scale.setScalar(0.5, 0.5, 0.5);

@@ -1,23 +1,23 @@
 import * as THREE from 'three';
 
-const paintings = [
+const pexelsPaintings = [
   {
-    resource: '590141',
+    pexelsId: '590141',
     direction: 1,
     x: 10,
   },
   {
-    resource: '2508810',
+    pexelsId: '2508810',
     direction: -1,
     x: 0,
   },
   {
-    resource: '3013982',
+    pexelsId: '3013982',
     direction: 1,
     x: -10,
   },
   {
-    resource: '1770803',
+    pexelsId: '1770803',
     direction: -1,
     x: -20,
   },
@@ -25,20 +25,27 @@ const paintings = [
 
 export function setPainting(scene, config = {
   direction: -1,
-  resource: '1770803',
+  pexelsId: '1770803',
+  customUrlResource: null,
   x: 9,
 }) {
   const scale = 15;
   const base = 5;
   const textureLoader = new THREE.TextureLoader();
   const imageLoader = new THREE.ImageLoader();
-  const resourceFormat = '.jpeg';
-  const basePath = 'https://images.pexels.com/photos/';
-  const urlVars = '?auto=compress&cs=tinysrgb&dpr=1&w=2600';
-  const { resource } = config;
-  const url = `${basePath}${resource}/pexels-photo-${resource}${resourceFormat}${urlVars}`;
+  const pexelsResourceFormat = '.jpeg';
+  const pexelsbasePath = 'https://images.pexels.com/photos/';
+  const pexelsUrlVars = '?auto=compress&cs=tinysrgb&dpr=1&w=2600';
+  const { pexelsId, customUrlResource } = config;
+  const pexelsResourcePath = `${pexelsId}/pexels-photo-${pexelsId}${pexelsResourceFormat}`;
+  const pexelsURL = `${pexelsbasePath}${pexelsResourcePath}${pexelsUrlVars}`;
+  const customUrl = customUrlResource || pexelsURL;
+
+  textureLoader.crossOrigin = 'anonymous';
+  imageLoader.crossOrigin = 'anonymous';
+
   imageLoader.load(
-    url,
+    customUrl,
     (image) => {
       const z = 10;
       const aspectRatio = image.width / image.height;
@@ -49,7 +56,7 @@ export function setPainting(scene, config = {
         1,
       );
       const material = new THREE.MeshStandardMaterial({
-        map: textureLoader.load(url),
+        map: textureLoader.load(customUrl),
         side: THREE.DoubleSide,
       });
 
@@ -75,14 +82,14 @@ export function setPainting(scene, config = {
   );
 }
 
-export function setPaintings(scene) {
-  paintings.forEach(({
-    resource,
+export function setPexelsPaintings(scene) {
+  pexelsPaintings.forEach(({
+    pexelsId,
     direction,
     x,
   }) => {
     setPainting(scene, {
-      resource,
+      pexelsId,
       direction,
       x,
     });

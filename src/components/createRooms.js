@@ -15,7 +15,7 @@ import {
 } from './getUtils';
 import floor from './mesh/floor';
 import { addLight } from './lights/sceneLight';
-import { setPaintings } from './mesh/painting';
+import { setPexelsPaintings } from './mesh/painting';
 import walls from './mesh/walls';
 import addSculpture from './mesh/sculpture';
 
@@ -29,7 +29,7 @@ function createRooms() {
   const scene = getScene();
 
   addLight(scene);
-  setPaintings(scene);
+  setPexelsPaintings(scene);
   addSculpture(scene);
 
   scene.add(floor);

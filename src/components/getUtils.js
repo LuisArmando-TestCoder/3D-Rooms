@@ -1,11 +1,14 @@
 import * as THREE from 'three';
 
-export const color = 0x000;// white
+export const color = 0x000; // white
 export const near = 10;
 export const far = 100;
 
 export function getRenderer(canvas) {
-  return new THREE.WebGLRenderer({ canvas, antialias: true });
+  return new THREE.WebGLRenderer({
+    canvas,
+    antialias: true,
+  });
 }
 
 export function getAspectRatio() {
@@ -22,4 +25,39 @@ export function getScene() {
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(color, near, far);
   return scene;
+}
+
+function getMouseVector(event) {
+  const mouse = new THREE.Vector2();
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  return mouse;
+}
+
+export function setMouseEventOnMesh({
+  eventName = 'click',
+  mesh, // required
+  callback = console.log,
+  camera, // required
+  canvas,
+}) {
+  const raycaster = new THREE.Raycaster();
+  (canvas || document).addEventListener(eventName, (event) => {
+    const mouse = getMouseVector(event);
+
+    raycaster.setFromCamera(mouse, camera);
+
+    const intersects = raycaster.intersectObject(mesh, true);
+    const isObjectIntersecting = intersects.length > 0;
+
+    if (isObjectIntersecting) {
+      const [firstIntersected] = intersects;
+
+      firstIntersected.object.traverse((object3D) => {
+        const canExecuteCallback = object3D.isMesh && callback;
+
+        if (canExecuteCallback) callback(object3D);
+      });
+    }
+  });
 }
