@@ -8,6 +8,7 @@ import {
   setFirstPersonDirectionControllers,
 } from './cameraDirectionController';
 import {
+  handleWindowResize,
   getRenderer,
   getCamera,
   getScene,
@@ -39,6 +40,8 @@ function createRooms() {
 
   camera.position.set(-25, 10, 0);
   camera.lookAt(new THREE.Vector3());
+
+  handleWindowResize(camera, renderer);
 
   setFirstPersonPositionControllers();
   setFirstPersonDirectionControllers(camera, c);
