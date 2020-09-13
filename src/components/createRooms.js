@@ -46,6 +46,8 @@ function createRooms() {
 
   handleWindowResize(camera, renderer);
 
+  c.focus();
+
   setFirstPersonPositionControllers(c);
   setFirstPersonDirectionControllers(camera, c);
   draw(() => {
