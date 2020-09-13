@@ -19,6 +19,7 @@ import { addLight } from './lights/sceneLight';
 import { setPexelsPaintings } from './mesh/painting';
 import walls from './mesh/walls';
 import addSculpture from './mesh/sculpture';
+import addCustomPaintingPlaceholder from './mesh/customPainting';
 
 function createRooms() {
   const { draw, c, size } = preset(null, 'canvas', null);
@@ -30,8 +31,10 @@ function createRooms() {
   const scene = getScene();
 
   addLight(scene);
-  setPexelsPaintings(scene);
   addSculpture(scene);
+  addCustomPaintingPlaceholder({ scene, camera, canvas: c });
+
+  setPexelsPaintings(scene);
 
   scene.add(floor);
   scene.add(walls);
@@ -43,7 +46,7 @@ function createRooms() {
 
   handleWindowResize(camera, renderer);
 
-  setFirstPersonPositionControllers();
+  setFirstPersonPositionControllers(c);
   setFirstPersonDirectionControllers(camera, c);
   draw(() => {
     updateFirstPersonPosition();

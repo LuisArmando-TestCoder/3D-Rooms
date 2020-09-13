@@ -41,8 +41,9 @@ export function setMouseEventOnMesh({
   camera, // required
   canvas,
 }) {
+  const mouseZone = canvas || window;
   const raycaster = new THREE.Raycaster();
-  (canvas || document).addEventListener(eventName, (event) => {
+  mouseZone.addEventListener(eventName, (event) => {
     const mouse = getMouseVector(event);
 
     raycaster.setFromCamera(mouse, camera);

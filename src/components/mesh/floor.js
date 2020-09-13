@@ -20,7 +20,7 @@ const aoMap = getMap(aoSrc, map);
 
 const roughnessMap = getMap(roughnessSrc, map);
 
-const geometry = new THREE.BoxGeometry(60, 20, 1, 1);
+const geometry = new THREE.BoxGeometry(100, 40, 1, 1);
 const material = new THREE.MeshStandardMaterial({
   roughnessMap,
   aoMap,

@@ -4,12 +4,12 @@ const pexelsPaintings = [
   {
     pexelsId: '590141',
     direction: 1,
-    x: 10,
+    x: 30,
   },
   {
     pexelsId: '2508810',
     direction: -1,
-    x: 0,
+    x: 10,
   },
   {
     pexelsId: '3013982',
@@ -26,7 +26,6 @@ const pexelsPaintings = [
 export function setPainting(scene, config = {
   direction: -1,
   pexelsId: '1770803',
-  customUrlResource: null,
   x: 9,
 }) {
   const scale = 15;
@@ -36,18 +35,17 @@ export function setPainting(scene, config = {
   const pexelsResourceFormat = '.jpeg';
   const pexelsbasePath = 'https://images.pexels.com/photos/';
   const pexelsUrlVars = '?auto=compress&cs=tinysrgb&dpr=1&w=2600';
-  const { pexelsId, customUrlResource } = config;
+  const { pexelsId } = config;
   const pexelsResourcePath = `${pexelsId}/pexels-photo-${pexelsId}${pexelsResourceFormat}`;
   const pexelsURL = `${pexelsbasePath}${pexelsResourcePath}${pexelsUrlVars}`;
-  const customUrl = customUrlResource || pexelsURL;
 
   textureLoader.crossOrigin = 'anonymous';
   imageLoader.crossOrigin = 'anonymous';
 
   imageLoader.load(
-    customUrl,
+    pexelsURL,
     (image) => {
-      const z = 10;
+      const z = 20;
       const aspectRatio = image.width / image.height;
       const geometry = new THREE.PlaneGeometry(
         aspectRatio * scale,
@@ -56,7 +54,7 @@ export function setPainting(scene, config = {
         1,
       );
       const material = new THREE.MeshStandardMaterial({
-        map: textureLoader.load(customUrl),
+        map: textureLoader.load(pexelsURL),
         side: THREE.DoubleSide,
       });
 

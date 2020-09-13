@@ -7,7 +7,7 @@ function deegresToRadians(degrees) {
   return normalizedDegrees * Math.PI;
 }
 
-const keyController = {
+export const keyController = {
   keys: [],
 };
 
@@ -74,12 +74,12 @@ const movementKeys = {
   ArrowRight: move.right,
 };
 
-const variousaAxis = ['x', 'z'];
+const validAxes = ['x', 'z'];
 
 function reduceFirstPersonPositionAcceleration() {
   const key = 'acceleration';
   const obj = cameraVector;
-  variousaAxis.forEach((axis) => {
+  validAxes.forEach((axis) => {
     const surpassingFriqtion = Math.abs(obj[key][axis]) > obj.friqtion[axis] / 2;
     if (surpassingFriqtion) {
       obj[key][axis] += -Math.sign(obj[key][axis]) * (obj.friqtion[axis] / friqtionResistance);
@@ -90,7 +90,7 @@ function reduceFirstPersonPositionAcceleration() {
 }
 
 function topFirstPersonPositionAcceleration() {
-  variousaAxis.forEach((axis) => {
+  validAxes.forEach((axis) => {
     if (cameraVector.acceleration[axis] > cameraVector.top.acceleration[axis]) {
       cameraVector.acceleration[axis] = cameraVector.top.acceleration[axis];
     }
@@ -124,15 +124,15 @@ export function updateFirstPersonPosition() {
   camera.position.z += acceleration[chosenAxis] * Math.cos(cameraDirection.x + rotation);
 }
 
-export function setFirstPersonPositionControllers() {
-  window.addEventListener('keydown', (event) => {
+export function setFirstPersonPositionControllers(canvas) {
+  canvas.addEventListener('keydown', (event) => {
     const isValidKey = Object.keys(movementKeys).includes(event.key);
     const isKeyInQueue = keyController.keys.includes(event.key);
     if (isValidKey && !isKeyInQueue) {
       keyController.keys.push(event.key);
     }
   });
-  window.addEventListener('keyup', (event) => {
+  canvas.addEventListener('keyup', (event) => {
     const disappearingKeyIndex = keyController.keys.indexOf(event.key);
     keyController.keys.splice(disappearingKeyIndex, 1);
   });
